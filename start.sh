@@ -10,7 +10,7 @@ if [ -n "$TAILSCALE_AUTHKEY" ]; then
         export TAILSCALE_EXITNODE="true"
     fi
     echo "Starting Tailscale"
-    /app/tailscaled  --tun=userspace-networking &
+    /app/tailscaled  --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 &
     until /app/tailscale up --authkey=$TAILSCALE_AUTHKEY --hostname=$TAILSCALE_HOSTNAME --advertise-exit-node=$TAILSCALE_EXITNODE;
     do
         echo "Tailscale is not ready yet, retrying in 5 seconds..."
